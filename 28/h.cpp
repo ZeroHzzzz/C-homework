@@ -1,66 +1,67 @@
 #include <iostream>
-#include <vector>
-#include <unordered_map>
 #include <algorithm>
 
-using namespace std;
-
-unordered_map<int, int> prime_factors(int n) {
-    unordered_map<int, int> factors;
-    int i = 2;
-    while (i * i <= n) {
-        while (n % i == 0) {
-            factors[i]++;
-            n /= i;
-        }
-        i++;
+int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
     }
-    if (n > 1) {
-        factors[n]++;
-    }
-    return factors;
+    return a;
 }
 
-int lcm(int x, int y) {
-    return x * y / __gcd(x, y);
+int lcm(int a, int b) {
+    return (a / gcd(a, b)) * b;
+}
+
+void factorize(int num, int factors[], int counts[], int& size) {
+    size = 0;
+    for (int i = 2; i <= num; ++i) {
+        if (num % i == 0) {
+            int count = 0;
+            while (num % i == 0) {
+                num /= i;
+                count++;
+            }
+            factors[size] = i;
+            counts[size] = count;
+            size++;
+        }
+    }
 }
 
 int main() {
     int n;
-    cin >> n;
+    std::cin >> n;
 
-    vector<int> nums(n);
-    for (int i = 0; i < n; i++) {
-        cin >> nums[i];
+    int nums[n];
+    for (int i = 0; i < n; ++i) {
+        std::cin >> nums[i];
     }
 
-    int lcm_result = 1;
-    unordered_map<int, int> prime_factors_result;
+    int result_lcm = nums[0];
+    for (int i = 1; i < n; ++i) {
+        result_lcm = lcm(result_lcm, nums[i]);
+    }
 
-    for (int num : nums) {
-        lcm_result = lcm(lcm_result, num);
-        unordered_map<int, int> factors = prime_factors(num);
-        for (auto factor_count : factors) {
-            int factor = factor_count.first;
-            int count = factor_count.second;
-            prime_factors_result[factor] = max(prime_factors_result[factor], count);
+    int prime_factors[1000];
+    int prime_factors_counts[1000];
+    int prime_factors_size;
+    factorize(result_lcm, prime_factors, prime_factors_counts, prime_factors_size);
+
+    for (int i = 0; i < prime_factors_size; ++i) {
+        for (int j = i + 1; j < prime_factors_size; ++j) {
+            if (prime_factors_counts[i] < prime_factors_counts[j] ||
+                (prime_factors_counts[i] == prime_factors_counts[j] && prime_factors[i] < prime_factors[j])) {
+                std::swap(prime_factors[i], prime_factors[j]);
+                std::swap(prime_factors_counts[i], prime_factors_counts[j]);
+            }
         }
     }
 
-    vector<pair<int, int>> sorted_factors(prime_factors_result.begin(), prime_factors_result.end());
-    sort(sorted_factors.begin(), sorted_factors.end(), [](const pair<int, int>& a, const pair<int, int>& b) {
-        if (a.second == b.second) {
-            return a.first > b.first;
-        }
-        return a.second > b.second;
-    });
-
-    cout << lcm_result << endl;
-    for (size_t i = 0; i < sorted_factors.size(); i++) {
-        cout << sorted_factors[i].first << ": " << sorted_factors[i].second;
-        if (i < sorted_factors.size() - 1) {
-            cout << ", ";
-        }
+    std::cout << result_lcm << std::endl;
+    for (int i = 0; i < prime_factors_size; ++i) {
+        std::cout << prime_factors[i] << ": " << prime_factors_counts[i] << ", ";
     }
 
     return 0;

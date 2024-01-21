@@ -1,36 +1,50 @@
 #include <iostream>
-#include <map>
-#include <vector>
 #include <algorithm>
 
-using namespace std;
-
-map<char, int> mp;
-
-bool compare(const pair<char, int>& lhs, const pair<char, int>& rhs) {
-    return lhs.second > rhs.second; // 降序排序
-}
+const int MAX_N = 26;
 
 int main() {
-    int n, num;
-    cin >> n >> num;
+    int n, m;
+    std::cin >> n >> m;
 
-    for (int i = 1; i <= num; i++) {
-        char a, b, c;
-        cin >> a >> b >> c;
-        mp[a] += 2;
-        mp[b] += 1;
+    char dishes[MAX_N];
+    int votes[MAX_N] = {0};
+
+    // 读取特色菜名
+    for (int i = 0; i < n; ++i) {
+        std::cin >> dishes[i];
+        votes[i] = 0;
     }
 
-    // 将map的键值对存储到vector中
-    vector<pair<char, int>> vec(mp.begin(), mp.end());
+    // 统计投票
+    for (int i = 0; i < m; ++i) {
+        char vote[MAX_N];
+        std::cin >> vote;
 
-    // 使用自定义比较函数对vector进行排序
-    sort(vec.begin(), vec.end(), compare);
+        // 根据投票结果增加得票数
+        for (int j = 0; j < n; ++j) {
+            for (int k = 0; k < n; ++k) {
+                if (dishes[k] == vote[j]) {
+                    votes[k] += n - j - 1;
+                    break;
+                }
+            }
+        }
+    }
 
-    // 输出排序后的结果
-    for (const auto& pair : vec) {
-        cout << pair.first << " " << pair.second << endl;
+    // 将得票结果按照得票数从高到低排序，如果得票数相等，则按字典序升序
+    for (int i = 0; i < n; ++i) {
+        for (int j = i + 1; j < n; ++j) {
+            if (votes[i] < votes[j] || (votes[i] == votes[j] && dishes[i] > dishes[j])) {
+                std::swap(votes[i], votes[j]);
+                std::swap(dishes[i], dishes[j]);
+            }
+        }
+    }
+
+    // 输出结果
+    for (int i = 0; i < n; ++i) {
+        std::cout << votes[i] << ' ';
     }
 
     return 0;

@@ -1,26 +1,36 @@
-#include<iostream>
-#include<map>
-using namespace std;
-map<int, int> mp; 
-int getnum(int n){
-    int num = 0;
-    while(n!=0){
-        n/=10;
-        num++;
+#include <iostream>
+
+int countDigits(int num) {
+    int count = 0;
+    while (num != 0) {
+        num /= 10;
+        count++;
     }
-    return num;
+    return count;
 }
-int main(){
+
+int main() {
     int n;
-    cin>>n;
-    for(int i=1;i<=n;i++){
-        int tmp;
-        cin>>tmp;
-        mp[getnum(tmp)] ++;
+    std::cin >> n;
+
+    const int maxDigits = 10;
+
+    int digitCounts[maxDigits] = {0};
+
+    for (int i = 0; i < n; ++i) {
+        int num;
+        std::cin >> num;
+
+        int digits = countDigits(num);
+
+        digitCounts[digits]++;
     }
-    
-    for(auto it = mp.begin(); it != mp.end(); it ++){
-        cout<<it->first<<" "<<it->second<<endl;
+
+    for (int i = 1; i < maxDigits; ++i) {
+        if (digitCounts[i] > 0) {
+            std::cout << i << ":" << digitCounts[i] << std::endl;
+        }
     }
+
     return 0;
 }

@@ -1,25 +1,22 @@
-#include<iostream>
-#include<algorithm>
-using namespace std;
-struct node{
-    int loc,num,sot;
-}mp[110];
-bool cmp(node a, node b){
-    return a.num > b.num;
-}
-bool cmp2(node a, node b){
-    return a.loc < b.loc;
-}
-int main(){
-    int n = 0;
-    while(cin>>mp[++n].num){
-        mp[n].loc = n;
+#include <iostream>
+#include <vector>
+
+int main() {
+    std::vector<int> heights;
+    int height;
+    while (std::cin >> height) {
+        heights.push_back(height);
     }
-    sort(mp + 1, mp + 1 + n, cmp);
-    for(int i=1;i<=n;i++){
-        for(int j = i + 1; j<=n;j++) if(mp[i].num > mp[j].num) mp[i].sot ++;
+
+    for (int i = 0; i < heights.size(); ++i) {
+        int count = 0;
+        for (int j = 0; j < heights.size(); ++j) {
+            if (j != i && heights[j] < heights[i]) {
+                count++;
+            }
+        }
+        std::cout << count << " ";
     }
-    sort(mp + 1, mp + 1 + n, cmp2);
-    for(int i=1;i<=n;i++) cout<<mp[i].sot<<" ";
+
     return 0;
 }
