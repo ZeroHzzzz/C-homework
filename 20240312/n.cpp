@@ -1,29 +1,33 @@
-#include<iostream>
-#include<algorithm>
+#include <algorithm>
+#include <iostream>
 using namespace std;
-int sum(int n){
+int sum(int n) {
     int ans = 0;
-    while(n!=0){
-        int tmp = n%10;
+    while (n != 0) {
+        int tmp = n % 10;
         ans += tmp;
-        n/=10;
+        n /= 10;
     }
     return ans;
 }
-bool cmp(int a, int b){
+bool cmp(int a, int b) {
     int sa = sum(a);
     int sb = sum(b);
-    if(sa == sb) return a >b;
-    else return sa > sb;
+    if (sa == sb)
+        return a > b;
+    else
+        return sa > sb;
 }
-int main(){
+int main() {
     int t = 1;
-    while(cin>>t&&t != 0){
+    while (cin >> t && t != 0) {
         int mp[1010];
-        for(int i=1;i<=t;i++) cin>>mp[i];
-        sort(mp+1, mp+1+t, cmp);
-        for(int i=1;i<=t;i++) cout<<mp[i]<<" ";
-        cout<<endl;
+        for (int i = 1; i <= t; i++)
+            cin >> mp[i];
+        sort(mp + 1, mp + 1 + t, cmp);
+        for (int i = 1; i <= t; i++)
+            cout << mp[i] << " ";
+        cout << endl;
     }
     return 0;
 }

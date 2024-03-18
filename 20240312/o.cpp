@@ -1,36 +1,23 @@
-#include <iostream>
 #include <algorithm>
-#include <vector>
-
+#include <iostream>
 using namespace std;
-
-struct Student {
-  char id[10];
-  int score;
-};
-
-bool cmp(const Student& a, const Student& b) {
-  if (a.score == b.score) {
-    return a.id < b.id;
-  } else {
-    return a.score > b.score;
-  }
+struct node {
+    long long num;
+    int score;
+} mp[10010];
+bool cmp(node a, node b) {
+    if (a.score == b.score)
+        return a.num < b.num;
+    else
+        return a.score > b.score;
 }
-
 int main() {
-  int n;
-  cin >> n;
-  vector<Student> students(n);
-  for (int i = 0; i < n; i++) {
-    cin >> students[i].id >> students[i].score;
-    if(students[i].score > 1000) students[i].score = 1000;
-  }
-
-  sort(students.begin(), students.end(), cmp);
-
-  for (int i = 0; i < n; i++) {
-    cout << students[i].id << " " << students[i].score << endl;
-  }
-
-  return 0;
+    int n;
+    cin >> n;
+    for (int i = 1; i <= n; i++)
+        cin >> mp[i].num >> mp[i].score;
+    sort(mp + 1, mp + 1 + n, cmp);
+    for (int i = 1; i <= n; i++)
+        cout << mp[i].num << " " << mp[i].score << endl;
+    return 0;
 }
