@@ -9,13 +9,11 @@ struct Student {
     double averageScore;
 };
 
-// 比较函数，按照平均分数和姓名的 ASCII 码进行排序
 bool compareStudents(const Student& s1, const Student& s2) {
     if (s1.averageScore != s2.averageScore) {
-        return s1.averageScore > s2.averageScore;  // 按平均分数从大到小排序
+        return s1.averageScore > s2.averageScore;
     }
-    return s1.name <
-           s2.name;  // 如果平均分数相同，则按姓名的 ASCII 码从小到大排序
+    return s1.name < s2.name;
 }
 
 int main() {
@@ -37,10 +35,8 @@ int main() {
         }
     }
 
-    // 对符合条件的学生进行排序
     std::sort(students.begin(), students.end(), compareStudents);
 
-    // 输出结果
     int rank = 1;
     for (const auto& student : students) {
         std::cout << rank << " " << student.name << std::endl;

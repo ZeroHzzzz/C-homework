@@ -1,12 +1,12 @@
-#include<iostream>
-#include<map>
+#include <iostream>
+#include <map>
 using namespace std;
-map<int,int> mp;
-int main(){
+map<int, int> mp;
+int main() {
     int tmp;
-    while(cin>>tmp){
-        if(mp[tmp] == 0){
-            cout<<tmp<<" ";
+    while (cin >> tmp) {
+        if (mp[tmp] == 0) {
+            cout << tmp << " ";
             mp[tmp] = 1;
         }
     }
