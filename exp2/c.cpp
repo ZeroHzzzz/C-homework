@@ -3,13 +3,13 @@
 #include <map>
 using namespace std;
 
-class node {
+class Calculator {
    private:
     double x, y;
     string cal;
 
    public:
-    node(double x, string c, double y) {
+    Calculator(double x, string c, double y) {
         this->x = x;
         cal = c;
         this->y = y;
@@ -49,27 +49,28 @@ class node {
 };
 
 int main() {
-    map<string, double (node::*)(double, double)> doubleFunctionMap_couple;
-    map<string, double (node::*)(double)> doubleFunctionMap_single;
+    map<string, double (Calculator::*)(double, double)>
+        doubleFunctionMap_couple;
+    map<string, double (Calculator::*)(double)> doubleFunctionMap_single;
 
-    doubleFunctionMap_couple["+"] = &node::add;
-    doubleFunctionMap_couple["-"] = &node::subtract;
-    doubleFunctionMap_couple["*"] = &node::mul;
-    doubleFunctionMap_couple["/"] = &node::divide;
-    doubleFunctionMap_couple["^"] = &node::power;
+    doubleFunctionMap_couple["+"] = &Calculator::add;
+    doubleFunctionMap_couple["-"] = &Calculator::subtract;
+    doubleFunctionMap_couple["*"] = &Calculator::mul;
+    doubleFunctionMap_couple["/"] = &Calculator::divide;
+    doubleFunctionMap_couple["^"] = &Calculator::power;
 
-    doubleFunctionMap_single["sqrt"] = &node::squareRoot;
-    doubleFunctionMap_single["Log10"] = &node::commonLog;
-    doubleFunctionMap_single["Ln"] = &node::naturalLog;
+    doubleFunctionMap_single["sqrt"] = &Calculator::squareRoot;
+    doubleFunctionMap_single["Log10"] = &Calculator::commonLog;
+    doubleFunctionMap_single["Ln"] = &Calculator::naturalLog;
 
-    doubleFunctionMap_single["sin"] = &node::sine;
-    doubleFunctionMap_single["cos"] = &node::cosine;
+    doubleFunctionMap_single["sin"] = &Calculator::sine;
+    doubleFunctionMap_single["cos"] = &Calculator::cosine;
 
     double a, b;
     string cal;
     cin >> a >> cal >> b;
 
-    node calc(a, cal, b);
+    Calculator calc(a, cal, b);
 
     if (doubleFunctionMap_single.find(cal) != doubleFunctionMap_single.end()) {
         cout << (calc.*(doubleFunctionMap_single[cal]))(a) << endl;

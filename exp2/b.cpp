@@ -20,14 +20,14 @@ class node {
     }
 };
 int main() {
-    // int mp[10010];
+    freopen("b.in", "r", stdin);
     vector<int> mp;
     int tmp, ind = 0;
     while (cin >> tmp) {
-        // mp[ind++] = tmp;
         mp.push_back(tmp);
     }
     node Arr(&mp[0], mp.end() - mp.begin());
     cout << Arr.findMax() << endl;
+    fclose(stdin);
     return 0;
 }

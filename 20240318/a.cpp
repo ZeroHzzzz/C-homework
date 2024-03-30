@@ -1,32 +1,34 @@
-#include <cstdio>
+#include <algorithm>
+#include <iomanip>
 #include <iostream>
-#include <queue>
-
+#include <vector>
 using namespace std;
-
-int n;
-
+struct node {
+    int num, ind;
+};  // 存的是等待时间
+bool cmp(node a, node b) {
+    return a.num < b.num;
+}
 int main() {
+    int n;
     while (cin >> n) {
-        double sum_t = 0, w = 0;
-        priority_queue<pair<long long, long long> > q;
+        vector<node> mp;
         for (int i = 1; i <= n; i++) {
-            int tmp;
-            scanf("%d", &tmp);
-            q.push(make_pair(-tmp, -i));
+            node tmp;
+            cin >> tmp.num;
+            tmp.ind = i;
+            mp.push_back(tmp);
         }
-        for (int i = 1; i <= n; i++) {
-            int num = -q.top().second;
-            int t = -q.top().first;
-            q.pop();
-            printf("%d ", num);
-            sum_t += t;
-            w += sum_t;  // 等待时间
+        sort(mp.begin(), mp.end(), cmp);
+        long long tmp = 0;
+        long long ans = 0;
+        for (auto i = mp.begin(); i != mp.end(); i++) {
+            cout << i->ind << " ";
+            tmp += i->num;
+            ans += tmp;
         }
-
-        // printf("\n%lf",sum_t);
-        printf("\n%.2lf\n", (double)w / n);
+        cout << endl;
+        cout << fixed << setprecision(2) << (double)ans / n << endl;
     }
-
     return 0;
 }
